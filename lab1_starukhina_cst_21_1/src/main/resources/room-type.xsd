@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://example.com/hotel-booking/room-type"
+           xmlns:tns="http://example.com/hotel-booking/room-type"
+           elementFormDefault="qualified">
+
+    <xs:complexType name="roomType">
+        <xs:sequence>
+            <xs:element name="typeName">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="Стандарт"/>
+                        <xs:enumeration value="Люкс"/>
+                        <xs:enumeration value="Делюкс"/>
+                        <xs:enumeration value="Сімейний"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="maxGuests" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="roomTypes">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="roomType" type="tns:roomType" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

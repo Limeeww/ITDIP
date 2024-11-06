@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://example.com/hotel-booking/room"
+           xmlns:tns="http://example.com/hotel-booking/room"
+           xmlns:rt="http://example.com/hotel-booking/room-type"
+           elementFormDefault="qualified">
+
+    <!-- Импортируем room-type.xsd для типов комнат -->
+    <xs:import namespace="http://example.com/hotel-booking/room-type" schemaLocation="room-type.xsd"/>
+
+    <xs:element name="room">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="type" type="rt:roomType"/>
+                <xs:element name="number" type="xs:int"/>
+                <xs:element name="price" type="xs:decimal"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

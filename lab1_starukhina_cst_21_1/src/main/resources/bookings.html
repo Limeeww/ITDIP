@@ -1,0 +1,178 @@
+<html xmlns:tns="http://example.com/hotel-booking/bookings">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бронювання готелів</title>
+    <style>
+        *, *:after, *:before {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+            transition: .2s ease-in-out;
+        }
+
+        body {
+            font-family: 'Open Sans', Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #373737;
+            background: #f7f7f7;
+            padding: 20px;
+        }
+
+        .wrapper {
+            width: 100%;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .booking-info__row {
+            display: none;
+        }
+
+        .booking-info__row.active {
+            display: table-row;
+        }
+
+        .booking-info__container {
+            display: none;
+            margin-top: 10px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .booking-info__container.active {
+            display: block;
+        }
+
+        .toggle__button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .toggle__button:hover {
+            background-color: #2980b9;
+        }
+
+        caption {
+            margin: 10px 0;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        p span {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <h2>Список бронювань</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>ID Бронювання</th>
+            <th>Ім'я клієнта</th>
+            <th>Дата початку</th>
+            <th>Дата завершення</th>
+            <th>Кількість гостей</th>
+            <th>Статус</th>
+            <th>Дії</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="booking-row">
+            <td>1</td>
+            <td>Іван Петренко</td>
+            <td>2024-11-10</td>
+            <td>2024-11-15</td>
+            <td>2</td>
+            <td>Підтверджено</td>
+            <td><button class="toggle__button" data-booking-id="1">Відкрити/Закрити</button></td>
+        </tr>
+        <tr class="booking-info__row">
+            <td colspan="7">
+                <div class="booking-info__container" data-booking-id="1">
+                    <h3>Інформація про готель та номер</h3>
+                    <p><span>Назва готелю:</span> Готель Україна</p>
+                    <p><span>Адреса:</span> вул. Хрещатик, 5, Київ</p>
+                    <p><span>Тип номера:</span> Стандарт</p>
+                    <p><span>Номер кімнати:</span> 101</p>
+                    <p><span>Ціна:</span> 1500.00 UAH</p>
+                </div>
+            </td>
+        </tr>
+        <tr class="booking-row">
+            <td>2</td>
+            <td>Олена Сидорова</td>
+            <td>2024-11-12</td>
+            <td>2024-11-18</td>
+            <td>3</td>
+            <td>В очікуванні</td>
+            <td><button class="toggle__button" data-booking-id="2">Відкрити/Закрити</button></td>
+        </tr>
+        <tr class="booking-info__row">
+            <td colspan="7">
+                <div class="booking-info__container" data-booking-id="2">
+                    <h3>Інформація про готель та номер</h3>
+                    <p><span>Назва готелю:</span> Прем'єр Палац</p>
+                    <p><span>Адреса:</span> бул. Тараса Шевченка, 25, Київ</p>
+                    <p><span>Тип номера:</span> Люкс</p>
+                    <p><span>Номер кімнати:</span> 203</p>
+                    <p><span>Ціна:</span> 3000.00 UAH</p>
+                </div>
+            </td>
+        </tr>
+        <!-- Додайте інші бронювання аналогічно -->
+        </tbody>
+    </table>
+</div>
+<script>
+    document.querySelectorAll(".toggle__button").forEach(btn => {
+        btn.addEventListener("click", () => {
+            let bookingId = btn.getAttribute("data-booking-id");
+            let bookingDiv = document.querySelector(`div[data-booking-id='${bookingId}']`);
+            bookingDiv.classList.toggle("active");
+            bookingDiv.parentElement.parentElement.classList.toggle("active");
+        });
+    });
+</script>
+</body>
+</html>

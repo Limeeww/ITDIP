@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://example.com/hotel-booking/bookings"
+           xmlns:tns="http://example.com/hotel-booking/bookings"
+           xmlns:hotel="http://example.com/hotel-booking/hotel"
+           xmlns:room="http://example.com/hotel-booking/room"
+           elementFormDefault="qualified">
+
+    <!-- Імпорт інших схем -->
+    <xs:import namespace="http://example.com/hotel-booking/hotel" schemaLocation="hotel.xsd"/>
+    <xs:import namespace="http://example.com/hotel-booking/room" schemaLocation="room.xsd"/>
+
+    <!-- Головний елемент bookings -->
+    <xs:element name="bookings">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="booking" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="hotel:hotel"/>
+                            <xs:element ref="room:room"/>
+                            <xs:element name="clientName" type="xs:string"/>
+                            <xs:element name="startDate" type="xs:date"/>
+                            <xs:element name="endDate" type="xs:date"/>
+                            <xs:element name="status">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="Підтверджено"/>
+                                        <xs:enumeration value="Скасовано"/>
+                                        <xs:enumeration value="В очікуванні"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="guestCount" type="xs:int" minOccurs="0"/>
+                        </xs:sequence>
+                        <xs:attribute name="id" type="xs:unsignedLong" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
