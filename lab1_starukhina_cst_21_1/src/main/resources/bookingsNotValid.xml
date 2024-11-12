@@ -4,7 +4,8 @@
           xmlns:room="http://example.com/hotel-booking/room"
           xmlns:roomType="http://example.com/hotel-booking/room-type">
 
-    <booking id="1">
+    <!-- Missing required ID attribute for booking element -->
+    <booking>
         <hotel:hotel>
             <hotel:hotelName>Готель Україна</hotel:hotelName>
             <hotel:address>
@@ -21,13 +22,14 @@
             <room:price>1500.00</room:price>
         </room:room>
         <clientName>Іван Петренко</clientName>
-        <startDate>2024-11-10</startDate>
+        <startDate>2024-15-10</startDate> <!-- Invalid date format -->
         <endDate>2024-11-15</endDate>
-        <status>Підтверджено</status>
-        <guestCount>2</guestCount>
+        <status>Unknown</status> <!-- Invalid status value -->
+        <guestCount>-2</guestCount> <!-- Invalid guest count (negative) -->
     </booking>
 
-    <booking id="2">
+    <!-- Invalid data type for ID (should be unsignedLong) -->
+    <booking id="-2">
         <hotel:hotel>
             <hotel:hotelName>Прем'єр Палац</hotel:hotelName>
             <hotel:address>
@@ -50,6 +52,7 @@
         <guestCount>3</guestCount>
     </booking>
 
+    <!-- Status with invalid enumeration value and missing required fields -->
     <booking id="3">
         <hotel:hotel>
             <hotel:hotelName>Дніпро</hotel:hotelName>
@@ -68,54 +71,7 @@
         </room:room>
         <clientName>Андрій Коваленко</clientName>
         <startDate>2024-12-01</startDate>
-        <endDate>2024-12-10</endDate>
-        <status>Підтверджено</status>
-        <guestCount>4</guestCount>
-    </booking>
-
-    <booking id="4">
-        <hotel:hotel>
-            <hotel:hotelName>Інтерконтиненталь</hotel:hotelName>
-            <hotel:address>
-                <hotel:street>вул. Велика Васильківська, 32</hotel:street>
-                <hotel:city>Київ</hotel:city>
-            </hotel:address>
-        </hotel:hotel>
-        <room:room>
-            <room:type>
-                <roomType:typeName>Сімейний</roomType:typeName>
-                <roomType:maxGuests>5</roomType:maxGuests>
-            </room:type>
-            <room:number>401</room:number>
-            <room:price>5000.00</room:price>
-        </room:room>
-        <clientName>Марія Поліщук</clientName>
-        <startDate>2024-11-20</startDate>
-        <endDate>2024-11-25</endDate>
-        <status>Скасовано</status>
-        <guestCount>5</guestCount>
-    </booking>
-
-    <booking id="5">
-        <hotel:hotel>
-            <hotel:hotelName>Роял Готель</hotel:hotelName>
-            <hotel:address>
-                <hotel:street>пл. Ринок, 14</hotel:street>
-                <hotel:city>Львів</hotel:city>
-            </hotel:address>
-        </hotel:hotel>
-        <room:room>
-            <room:type>
-                <roomType:typeName>Стандарт</roomType:typeName>
-                <roomType:maxGuests>2</roomType:maxGuests>
-            </room:type>
-            <room:number>102</room:number>
-            <room:price>1200.00</room:price>
-        </room:room>
-        <clientName>Тарас Шевченко</clientName>
-        <startDate>2024-11-18</startDate>
-        <endDate>2024-11-22</endDate>
-        <status>Підтверджено</status>
-        <guestCount>2</guestCount>
+        <status>Pending</status> <!-- Invalid status value -->
+        <!-- Missing endDate field -->
     </booking>
 </bookings>

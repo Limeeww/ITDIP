@@ -7,7 +7,7 @@
     <xs:element name="hotel">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="name" type="xs:string"/>
+                <xs:element name="hotelName" type="xs:string"/>
                 <xs:element name="address">
                     <xs:complexType>
                         <xs:sequence>

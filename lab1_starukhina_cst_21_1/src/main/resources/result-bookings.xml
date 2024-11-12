@@ -1,12 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<bookings xmlns="http://example.com/hotel-booking/bookings"
-          xmlns:hotel="http://example.com/hotel-booking/hotel"
-          xmlns:room="http://example.com/hotel-booking/room"
-          xmlns:roomType="http://example.com/hotel-booking/room-type">
-
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<bookings xmlns:hotel="http://example.com/hotel-booking/hotel" xmlns:room="http://example.com/hotel-booking/room" xmlns:roomType="http://example.com/hotel-booking/room-type" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://example.com/hotel-booking/bookings bookings.xsd" xmlns="http://example.com/hotel-booking/bookings">
     <booking id="1">
         <hotel:hotel>
-            <hotel:hotelName>Готель Україна</hotel:hotelName>
+            <hotel:name>Готель Україна</hotel:name>
             <hotel:address>
                 <hotel:street>вул. Хрещатик, 5</hotel:street>
                 <hotel:city>Київ</hotel:city>
@@ -26,10 +22,9 @@
         <status>Підтверджено</status>
         <guestCount>2</guestCount>
     </booking>
-
     <booking id="2">
         <hotel:hotel>
-            <hotel:hotelName>Прем'єр Палац</hotel:hotelName>
+            <hotel:name>Прем'єр Палац</hotel:name>
             <hotel:address>
                 <hotel:street>бул. Тараса Шевченка, 25</hotel:street>
                 <hotel:city>Київ</hotel:city>
@@ -49,10 +44,9 @@
         <status>В очікуванні</status>
         <guestCount>3</guestCount>
     </booking>
-
     <booking id="3">
         <hotel:hotel>
-            <hotel:hotelName>Дніпро</hotel:hotelName>
+            <hotel:name>Дніпро</hotel:name>
             <hotel:address>
                 <hotel:street>вул. Грушевського, 1</hotel:street>
                 <hotel:city>Київ</hotel:city>
@@ -72,10 +66,9 @@
         <status>Підтверджено</status>
         <guestCount>4</guestCount>
     </booking>
-
     <booking id="4">
         <hotel:hotel>
-            <hotel:hotelName>Інтерконтиненталь</hotel:hotelName>
+            <hotel:name>Інтерконтиненталь</hotel:name>
             <hotel:address>
                 <hotel:street>вул. Велика Васильківська, 32</hotel:street>
                 <hotel:city>Київ</hotel:city>
@@ -95,10 +88,9 @@
         <status>Скасовано</status>
         <guestCount>5</guestCount>
     </booking>
-
     <booking id="5">
         <hotel:hotel>
-            <hotel:hotelName>Роял Готель</hotel:hotelName>
+            <hotel:name>Роял Готель</hotel:name>
             <hotel:address>
                 <hotel:street>пл. Ринок, 14</hotel:street>
                 <hotel:city>Львів</hotel:city>
