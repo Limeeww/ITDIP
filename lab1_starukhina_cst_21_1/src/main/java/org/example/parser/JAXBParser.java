@@ -7,7 +7,6 @@ import jakarta.xml.bind.Unmarshaller;
 import org.example.entity.bookings.Booking;
 import org.example.entity.bookings.Bookings;
 
-import org.glassfish.jaxb.runtime.marshaller.NamespacePrefixMapper;
 import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
@@ -41,7 +40,7 @@ public class JAXBParser {
     public static void main(String[] args) throws JAXBException, SAXException {
         JAXBParser jaxbParser = new JAXBParser();
         System.out.println("--== JAXB Parser ==--");
-        Bookings bookings = jaxbParser.unmarshallBookings("src/main/resources/bookings.xml", "src/main/resources/bookings.xsd", org.example.entity.bookings.ObjectFactory.class);
+        Bookings bookings = jaxbParser.unmarshallBookings(Const.XML_FILE, Const.XSD_FILE, Const.BOOKINGS_OBJECT_FACTORY);
         System.out.println("====================================");
         System.out.println("Here is the orders: \n" + bookings);
         System.out.println("====================================");
@@ -49,7 +48,6 @@ public class JAXBParser {
         jaxbParser.saveOrdersToXml(orders, Constants.RESULT_ORDERS_XML_FILE, Constants.ORDERS_XSD_FILE);*/
 
         boolean isValid = true;
-        // Проверка данных объекта перед сохранением
         if (bookings == null || bookings.getBooking().isEmpty()) {
             System.err.println("Bookings data is empty or null.");
         } else {
@@ -59,13 +57,11 @@ public class JAXBParser {
                     System.err.println("Client name is missing in booking id " + booking.getId());
                     isValid = false;
                 }
-                // Добавьте другие проверки по требованиям вашей XSD, если необходимо
             }
         }
         if (isValid) {
-            // try to save Orders object to XML file (failed, exception)
             try {
-                saveBookings(bookings, "src/main/resources/result-bookings.xml", "src/main/resources/bookings.xsd", org.example.entity.bookings.ObjectFactory.class);
+                saveBookings(bookings, Const.RESULT_XML_FILE, Const.XSD_FILE, Const.BOOKINGS_OBJECT_FACTORY);
                 System.out.println("Bookings have been successfully saved to XML.");
             } catch (Exception ex) {
                 System.err.println("====================================");
@@ -86,10 +82,8 @@ public class JAXBParser {
         JAXBContext jc = JAXBContext.newInstance(objectFactory);
         Marshaller marshaller = jc.createMarshaller();
 
-        // obtain schema
         SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
-        // setup validation against XSD
         if (xsdFileName != null) {
             Schema schema = sf.newSchema(new File(xsdFileName));
 
@@ -104,7 +98,7 @@ public class JAXBParser {
         }
 
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "http://example.com/hotel-booking/bookings bookings.xsd");
+        marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, Const.SCHEMA_LOCATION_URI);
 
         marshaller.marshal(bookings, new File(xmlFileName));
     }

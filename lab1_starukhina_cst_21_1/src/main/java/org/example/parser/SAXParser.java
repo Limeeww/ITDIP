@@ -98,7 +98,7 @@ public class SAXParser extends DefaultHandler {
                 roomType = new RoomType();
                 log("Initialized roomType.");
             }
-            default -> parElement = curElement; // Запоминаем родительский элемент для дальнейшей обработки
+            default -> parElement = curElement;
         }
     }
 
@@ -130,11 +130,11 @@ public class SAXParser extends DefaultHandler {
                 booking.setGuestCount(Integer.parseInt(value));
                 log("Set guestCount: " + value);
             }
-            case "hotelName" -> {  // Обрабатываем новое имя тега для отеля
+            case "hotelName" -> {
                 hotel.setName(value);
                 log("Set hotel name: " + value);
             }
-            case "typeName" -> {  // Обрабатываем новое имя тега для типа комнаты
+            case "typeName" -> {
                 roomType.setTypeName(value);
                 log("Set roomType name: " + value);
             }
@@ -199,7 +199,7 @@ public class SAXParser extends DefaultHandler {
                 log("Set roomType for room.");
             }
         }
-        curElement = null; // Очищаем текущий элемент после завершения обработки
+        curElement = null;
     }
 
     public Bookings parseBookings(String xmlFilePath, String xsdFilePath) throws SAXException, ParserConfigurationException, IOException {
@@ -228,7 +228,7 @@ public class SAXParser extends DefaultHandler {
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
         SAXParser saxParser = new SAXParser();
         System.out.println("--== SAX Parser ==--");
-        Bookings bookings = saxParser.parseBookings("src/main/resources/bookings.xml", "src/main/resources/bookings.xsd");
+        Bookings bookings = saxParser.parseBookings(Const.XML_FILE, Const.XSD_FILE);
         System.out.println("====================================");
         System.out.println("Parsed Bookings: \n" + bookings);
         System.out.println("====================================");

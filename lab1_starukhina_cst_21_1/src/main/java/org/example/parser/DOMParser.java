@@ -70,7 +70,7 @@ public class DOMParser {
         Bookings bookings = new Bookings();
         List<Booking> bookingList = new ArrayList<>();
         Element root = document.getDocumentElement();
-        NodeList xmlBookings = root.getElementsByTagNameNS("http://example.com/hotel-booking/bookings", "booking");
+        NodeList xmlBookings = root.getElementsByTagNameNS(Const.BOOKINGS_NAMESPACE_URI, "booking");
 
         for (int i = 0; i < xmlBookings.getLength(); i++) {
             bookingList.add(parseBooking((Element) xmlBookings.item(i)));
@@ -190,7 +190,7 @@ public class DOMParser {
     }
 
     public void saveBookings(Bookings bookings, String outputPath, String xsdFilePath) throws ParserConfigurationException, TransformerException, SAXException {
-        // Настройка схемы для валидации
+
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         Schema schema = schemaFactory.newSchema(new File(xsdFilePath));
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -200,19 +200,18 @@ public class DOMParser {
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.newDocument();
 
-        // Создаем корневой элемент <bookings>
-        Element rootElement = doc.createElementNS("http://example.com/hotel-booking/bookings", "bookings");
+        Element rootElement = doc.createElementNS(Const.BOOKINGS_NAMESPACE_URI, "bookings");
 //        rootElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:tns", "http://example.com/hotel-booking/bookings");
-        rootElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:hotel", "http://example.com/hotel-booking/hotel");
-        rootElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:room", "http://example.com/hotel-booking/room");
-        rootElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:roomType", "http://example.com/hotel-booking/room-type");
+        rootElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:hotel", Const.HOTEL_NAMESPACE_URI);
+        rootElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:room", Const.ROOM_NAMESPACE_URI);
+        rootElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:roomType", Const.ROOM_TYPE_NAMESPACE_URI);
         rootElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        rootElement.setAttributeNS("http://www.w3.org/2001/XMLSchema-instance", "xsi:schemaLocation", "http://example.com/hotel-booking/bookings bookings.xsd");
+        rootElement.setAttributeNS("http://www.w3.org/2001/XMLSchema-instance", "xsi:schemaLocation", Const.SCHEMA_LOCATION_URI);
         doc.appendChild(rootElement);
 
-        // Добавление каждого объекта Booking в XML
+
         for (Booking booking : bookings.getBooking()) {
-            Element bookingElement = doc.createElementNS("http://example.com/hotel-booking/bookings", "booking");
+            Element bookingElement = doc.createElementNS(Const.BOOKINGS_NAMESPACE_URI, "booking");
             bookingElement.setAttribute("id", String.valueOf(booking.getId()));
 
             if (booking.getHotel() != null) {
@@ -232,7 +231,6 @@ public class DOMParser {
             rootElement.appendChild(bookingElement);
         }
 
-        // Трансформация и запись в XML
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -243,12 +241,11 @@ public class DOMParser {
         System.out.println("Bookings have been saved to XML file.");
     }
 
-    // Вспомогательный метод для добавления Hotel
     private void appendHotel(Document doc, Element bookingElement, Hotel hotel) {
-        Element hotelElement = doc.createElementNS("http://example.com/hotel-booking/hotel", "hotel:hotel");
+        Element hotelElement = doc.createElementNS(Const.HOTEL_NAMESPACE_URI, "hotel:hotel");
         appendTextElement(doc, hotelElement, "hotel:name", hotel.getName());
 
-        Element addressElement = doc.createElementNS("http://example.com/hotel-booking/hotel", "hotel:address");
+        Element addressElement = doc.createElementNS(Const.HOTEL_NAMESPACE_URI, "hotel:address");
         appendTextElement(doc, addressElement, "hotel:street", hotel.getAddress().getStreet());
         appendTextElement(doc, addressElement, "hotel:city", hotel.getAddress().getCity());
         hotelElement.appendChild(addressElement);
@@ -256,17 +253,15 @@ public class DOMParser {
         bookingElement.appendChild(hotelElement);
     }
 
-    // Вспомогательный метод для добавления Room
     private void appendRoom(Document doc, Element bookingElement, Room room) {
-        Element roomElement = doc.createElementNS("http://example.com/hotel-booking/room", "room:room");
+        Element roomElement = doc.createElementNS(Const.ROOM_NAMESPACE_URI, "room:room");
 
-        // Создание элемента типа комнаты
-        Element typeElement = doc.createElementNS("http://example.com/hotel-booking/room", "room:type");
-        Element typeNameElement = doc.createElementNS("http://example.com/hotel-booking/room-type", "roomType:typeName");
+        Element typeElement = doc.createElementNS(Const.ROOM_NAMESPACE_URI, "room:type");
+        Element typeNameElement = doc.createElementNS(Const.ROOM_TYPE_NAMESPACE_URI, "roomType:typeName");
         typeNameElement.setTextContent(room.getType().getTypeName());
         typeElement.appendChild(typeNameElement);
 
-        Element maxGuestsElement = doc.createElementNS("http://example.com/hotel-booking/room-type", "roomType:maxGuests");
+        Element maxGuestsElement = doc.createElementNS(Const.ROOM_TYPE_NAMESPACE_URI, "roomType:maxGuests");
         maxGuestsElement.setTextContent(String.valueOf(room.getType().getMaxGuests()));
         typeElement.appendChild(maxGuestsElement);
 
@@ -291,15 +286,13 @@ public class DOMParser {
     public static void main(String[] args) {
         try {
             DOMParser parser = new DOMParser();
-            String xmlFilePath = "src/main/resources/bookings.xml";
-            String xsdFilePath = "src/main/resources/bookings.xsd";
+            String xmlFilePath = Const.XML_FILE;
+            String xsdFilePath = Const.XSD_FILE;
 
-            // Демаршалинг XML в объекты Bookings
             Bookings bookings = parser.unmarshallBookings(xmlFilePath, xsdFilePath);
 
-            // Вывод информации о всех бронированиях
-            System.out.println(bookings); // вызовет toString() для Bookings
-            parser.saveBookings(bookings,  "src/main/resources/result-bookings.xml", "src/main/resources/bookings.xsd");
+            System.out.println(bookings);
+            parser.saveBookings(bookings,  Const.RESULT_XML_FILE, Const.XSD_FILE);
         } catch (Exception e) {
             e.printStackTrace();
         }
